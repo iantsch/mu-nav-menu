@@ -1,0 +1,18 @@
+
+{
+    "name": "iantsch/mu-nav-menu",
+    "type": "wordpress-muplugin",
+    "description": "WordPress must-use plugin to register a custom extended front-end menu walker and new wrapper function for BEM styled CSS classes.",
+    "keywords": ["wordpress","plugins"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Tschugg",
+            "email": "iantsch@gmail.com",
+            "homepage": "http://mbt.wien"
+        }
+    ],
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
