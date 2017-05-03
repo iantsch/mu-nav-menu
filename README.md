@@ -24,7 +24,7 @@ If you visit your Plugin section in the `wp-admin` area, you should be able to s
 Yes, you can easily adapt the functionality of this walker with the already known filter hooks and a few custom ones.
 
 | Hook | Parameter | Default | Functionality |
-|---|---|---|
+| --- | --- | --- |
 | MBT/WalkerNavMenu/menuToggleTitle | `string $title` | title attribute for toggle anchor | To localize this string add a filter. |
 | MBT/WalkerNavMenu/menuToggleContent | `string $content` | string of a caret SVG | An additional toggle item for nested menus. |
 | MBT/WalkerNavMenu/autoArchiveMenu | `boolean $render, int $depth, object $item` | false | Enables an automated post type archive sub menu |
