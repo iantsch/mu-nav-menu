@@ -19,22 +19,56 @@ $ php composer require iantsch/mu-nav-menu
 Download/fork this repository and copy the contents of this must-use plugin into `wp-content/mu-plugins/`. 
 If you visit your Plugin section in the `wp-admin` area, you should be able to see a newly created category (Must use) plugins
 
+## Usage
+
+A ready-to-use wrapper function `bem_nav_menu` for `wp_nav_menu` is included 
+
+```php
+$args = array(
+    'base_class' => 'main-menu', // Optional. Default: menu
+    'theme_location' => 'main-menu'
+);
+bem_nav_menu($args);
+```
+
+You have an additional argument to name your block to your convenience with the argument `base_class`.
+
 ## Filter Hooks
 
 Yes, you can easily adapt the functionality of this walker with the already known filter hooks and a few custom ones.
 
+### MBT/WalkerNavMenu/menuToggleTitle
 
-| Hook | Parameter | Default | Functionality |
-| --- | --- | --- | --- | 
-| MBT/WalkerNavMenu/menuToggleTitle | `string $title` | title attribute for toggle anchor | To localize this string add a filter. |
-| MBT/WalkerNavMenu/menuToggleContent | `string $content` | string of a caret SVG | An additional toggle item for nested menus. |
-| MBT/WalkerNavMenu/autoArchiveMenu | `boolean $render, int $depth, object $item` | false | Enables an automated post type archive sub menu |
-| MBT/WalkerNavMenu/autoTaxonomyMenu | `boolean $render, int $depth, object $item` | false | Enables an automated posts per term of taxonomy sub menu |
-| MBT/WalkerNavMenu/PostTypeArchive/queryArgs/postType={$postType} | `array $query_args` | [see below](#post-type-archive-query-arguments) | Adapt the automated sub menu query for $postType |
-| MBT/WalkerNavMenu/TermChildren/queryArgs/taxonomy={$taxonomy} | `array $query_args` | [see below](#term-children-query-arguments) | Adapt the automated sub menu query for $taxonomy |
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `string $title` | title attribute for toggle anchor | To localize this string add a filter. |
+
+### MBT/WalkerNavMenu/menuToggleContent
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `string $content` | string of a caret SVG | An additional toggle item for nested menus. |
+
+### MBT/WalkerNavMenu/autoArchiveMenu
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `boolean $render, int $depth, object $item` | false | Enables an automated post type archive sub menu |
+
+### MBT/WalkerNavMenu/autoTaxonomyMenu
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `boolean $render, int $depth, object $item` | false | Enables an automated posts per term of taxonomy sub menu |
+
+###  MBT/WalkerNavMenu/PostTypeArchive/queryArgs/postType={$postType} 
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `array $query_args` | [see below](#post-type-archive-query-arguments) | Adapt the automated sub menu query for $postType |
 
 
-#### Post type archive query arguments
+#### Default
 
 ```php
 array(
@@ -44,7 +78,14 @@ array(
 )
 ```
 
-#### Term children query arguments
+### MBT/WalkerNavMenu/TermChildren/queryArgs/taxonomy={$taxonomy} 
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- | 
+| `array $query_args` | [see below](#term-children-query-arguments) | Adapt the automated sub menu query for $taxonomy |
+
+
+#### Default
 
 ```php
 array(
@@ -60,17 +101,3 @@ array(
     )
 )
 ```
-
-## Usage
-
-A ready-to-use wrapper function `bem_nav_menu` for `wp_nav_menu` is included 
-
-```php
-$args = array(
-    'base_class' => 'main-menu', // Optional. Default: menu
-    'theme_location' => 'main-menu'
-);
-bem_nav_menu($args);
-```
-
-You have an additional argument to name your block to your convenience with the argument `base_class`.
