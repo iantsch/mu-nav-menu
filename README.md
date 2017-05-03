@@ -65,10 +65,9 @@ Yes, you can easily adapt the functionality of this walker with the already know
 
 | Parameter | Default | Functionality |
 |  --- | --- | --- | 
-| `array $query_args` | [see below](#post-type-archive-query-arguments) | Adapt the automated sub menu query for $postType |
+| `array $query_args` | [see below](#default-post-type-archive-arguments) | Adapt the automated sub menu query for $postType |
 
-
-#### Default
+#### Default post type aarchive arguments
 
 ```php
 array(
@@ -82,10 +81,10 @@ array(
 
 | Parameter | Default | Functionality |
 |  --- | --- | --- | 
-| `array $query_args` | [see below](#term-children-query-arguments) | Adapt the automated sub menu query for $taxonomy |
+| `array $query_args` | [see below](#default-term-children-arguments) | Adapt the automated sub menu query for $taxonomy |
 
 
-#### Default
+#### Default term children arguments
 
 ```php
 array(
