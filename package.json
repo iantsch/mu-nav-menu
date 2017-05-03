@@ -1,4 +1,3 @@
-
 {
     "name": "iantsch/mu-nav-menu",
     "type": "wordpress-muplugin",
@@ -13,6 +12,12 @@
         }
     ],
     "require": {
-        "composer/installers": "~1.0"
+        "composer/installers": "~1.0",
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "MBT": "."
+        }
     }
 }
