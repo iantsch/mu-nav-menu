@@ -37,10 +37,16 @@ You have an additional argument to name your block to your convenience with the 
 
 Yes, you can easily adapt the functionality of this walker with the already known filter hooks and a few custom ones.
 
-### MBT/WalkerNavMenu/menuToggleTitle
+### MBT/WalkerNavMenu/renderToggle - string $title
 
 | Parameter | Default | Functionality |
 |  --- | --- | --- | 
+| `boolean $render` | true | Enables the rendering of an no-JS toggle with radioboxes |
+
+### MBT/WalkerNavMenu/menuToggleTitle
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- |
 | `string $title` | title attribute for toggle anchor | To localize this string add a filter. |
 
 ### MBT/WalkerNavMenu/menuToggleContent
@@ -67,7 +73,7 @@ Yes, you can easily adapt the functionality of this walker with the already know
 |  --- | --- | --- | 
 | `array $query_args` | [see below](#default-post-type-archive-arguments) | Adapt the automated sub menu query for $postType |
 
-#### Default post type aarchive arguments
+#### Default post type archive arguments
 
 ```php
 array(
@@ -100,3 +106,9 @@ array(
     )
 )
 ```
+
+### MBT/WalkerNavMenu/mobileMenuContent
+
+| Parameter | Default | Functionality |
+|  --- | --- | --- |
+| `string $content` | string of html for the mobile toggle | An additional toggle item for mobile menus (burger). |

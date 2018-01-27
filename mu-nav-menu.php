@@ -1,4 +1,14 @@
 <?php
+/*
+ * Plugin Name: WordPress Menu Walker with BEM classes
+ * Plugin URI: https://github.com/iantsch/mu-nav-menu
+ * Description: WordPress must-use plugin to register a custom extended front-end menu walker and new wrapper function for BEM styled CSS classes.
+ * Version: 0.2.0
+ * Author: Christian Tschugg
+ * Author URI: http://mbt.wien
+ * Copyright: Christian Tschugg
+ * Text Domain: mbt
+*/
 
 namespace MBT {
 
@@ -9,15 +19,21 @@ namespace MBT {
 	 * Class BemWalkerNavMenu
 	 * @package MBT
 	 *
+	 * @wp-filter MBT/WalkerNavMenu/renderToggle - bool $render
 	 * @wp-filter MBT/WalkerNavMenu/menuToggleTitle - string $title
 	 * @wp-filter MBT/WalkerNavMenu/menuToggleContent - string $content
 	 * @wp-filter MBT/WalkerNavMenu/autoArchiveMenu - bool $render, int $depth, object $item
 	 * @wp-filter MBT/WalkerNavMenu/autoTaxonomyMenu - bool $render, int $depth, object $item
 	 * @wp-filter MBT/WalkerNavMenu/PostTypeArchive/queryArgs/postType={$postType} - array $query_args
 	 * @wp-filter MBT/WalkerNavMenu/TermChildren/queryArgs/taxonomy={$taxonomy} - array $query_args
+	 * @wp-filter MBT/WalkerNavMenu/mobileMenuContent - string $content, int $iterator
 	 */
 
 	class BemWalkerNavMenu extends WalkerNavMenu {
+
+		static $LVL_INDEX = -1;
+		static $MOBILE_INDEX = -1;
+
 		/**
 		 * @var int
 		 */
@@ -34,8 +50,7 @@ namespace MBT {
 		 * @param string $baseClass
 		 */
 		public function __construct($baseClass = 'menu') {
-			global $mbt;
-			$this->lvl_index = isset($mbt['lvl_index']) ? $mbt['lvl_index'] : -1;
+			$this->lvl_index = self::$LVL_INDEX;
 			$this->baseClass = $baseClass;
 		}
 
@@ -46,11 +61,16 @@ namespace MBT {
 		 */
 		public function start_lvl( &$output, $depth = 0, $args = array() ) {
 			$this->lvl_index++;
-			$title = apply_filters('MBT/WalkerNavMenu/menuToggleTitle', 'Toggle menu');
-			$output .= "<a href=\"#{$this->baseClass}__list--{$depth}-{$this->lvl_index}\" class=\"{$this->baseClass}__toggle\" title=\"{$title}\">";
-			$output .= apply_filters('MBT/WalkerNavMenu/menuToggleContent', '<svg viewBox="0 0 40 40"><path d="M20,26.5 11.4,17.8 15.7,13.5 20,17.9 24.3,13.5 28.6,17.8 "></path></svg>');
-			$output .= "</a>";
-			$output .= "<ul class=\"{$this->baseClass}__list {$this->baseClass}__list--{$depth}\" id=\"{$this->baseClass}__list--{$depth}-{$this->lvl_index}\">";
+			$renderToggle = apply_filters('MBT/WalkerNavMenu/renderToggle', true);
+			if ($renderToggle) {
+				$title = apply_filters('MBT/WalkerNavMenu/menuToggleTitle', 'Toggle menu');
+				$this->lvl_index++;
+				$output .= "<input type='radio' id='{$this->baseClass}__toggler--{$depth}-{$this->lvl_index}' name='{$this->baseClass}__toggler--{$depth}' class='{$this->baseClass}__toggler {$this->baseClass}__toggler--{$depth}'>";
+				$output .= "<label for='{$this->baseClass}__toggler--{$depth}-{$this->lvl_index}' class='{$this->baseClass}__toggle {$this->baseClass}__toggle--{$depth}' title='{$title}'>";
+				$output .= apply_filters('MBT/WalkerNavMenu/menuToggleContent', SvgSprite::getSvg('carret'));
+				$output .= "</label>";
+			}
+			$output .= "<ul class='{$this->baseClass}__list {$this->baseClass}__list--{$depth}' id='{$this->baseClass}__list--{$depth}-{$this->lvl_index}'>";
 		}
 
 		/**
@@ -60,8 +80,7 @@ namespace MBT {
 		 */
 		public function end_lvl( &$output, $depth = 0, $args = array() ) {
 			$output .= "</ul>";
-			global $mbt;
-			$mbt['lvl_index'] = $this->lvl_index;
+			self::$LVL_INDEX = $this->lvl_index;
 		}
 
 		/**
@@ -116,6 +135,7 @@ namespace MBT {
 			$item_output .= '<a'. $attributes .'>';
 			$item_output .= $args->link_before . $title . $args->link_after;
 			$item_output .= '</a>';
+			$item_output .= $item->description ? '<span class="'.$this->baseClass.'__description">'.$item->description.'</span>' : '';
 			$item_output .= $args->after;
 			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 		}
@@ -198,6 +218,15 @@ namespace MBT {
 				$this->end_lvl($output, $depth-1, $args);
 			}
 		}
+
+		public static function get_mobile_menu($baseClass) {
+			$iterator = ++self::$MOBILE_INDEX;
+			$html = '<input type="checkbox" id="mobile-menu-'.$iterator.'" class="'.$baseClass.'__toggler">';
+			$html .= '<label for="mobile-menu-'.$iterator.'" class="'.$baseClass.'__burger" title="'.__('Toggle menu','mmc').'">';
+			$html .= apply_filters('MBT/WalkerNavMenu/mobileMenuContent', '<span class="'.$baseClass.'__bar"></span>', $iterator);
+			$html .= '</label>';
+			return $html;
+		}
 	}
 }
 
@@ -212,11 +241,13 @@ namespace {
 				$baseClass = $args['base_class'];
 				unset($args['base_class']);
 			}
+			$mobileMenu = WalkerNavMenu::get_mobile_menu($baseClass);
 			$args = wp_parse_args($args, array(
 				'menu_class' => $baseClass.'__list '.$baseClass.'__list--root',
 				'container' => 'nav',
 				'container_class' => $baseClass,
 				'walker' => new WalkerNavMenu($baseClass),
+				'items_wrap' => "<div class='{$baseClass}__wrapper'>{$mobileMenu}<ul class='%2\$s'>%3\$s</ul></div>"
 			));
 			wp_nav_menu($args);
 		}

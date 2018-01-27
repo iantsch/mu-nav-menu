@@ -1,6 +1,7 @@
 {
     "name": "iantsch/mu-nav-menu",
     "type": "wordpress-muplugin",
+    "version": "0.2.0",
     "description": "WordPress must-use plugin to register a custom extended front-end menu walker and new wrapper function for BEM styled CSS classes.",
     "keywords": ["wordpress","plugins"],
     "license": "MIT",

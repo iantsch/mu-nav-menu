@@ -1,0 +1,36 @@
+/*
+ * Mixin mu-nav-menu
+ * @var string $baseClass
+ * @package MBT
+ *
+ * Allows you to reuse your Menu CSS for different baseClasses
+ */
+
+@mixin mu-nav-menu($baseClass: 'menu') {
+    // Outer and inner wrapper
+    .#{$baseClass}{}
+    .#{$baseClass}__wrapper{}
+
+    // Mobile
+    .#{$baseClass}__burger{}
+    .#{$baseClass}__bar{}
+
+    // Defaults
+    .#{$baseClass}__list{}
+    .#{$baseClass}__item{}
+    .#{$baseClass}__link{}
+    .#{$baseClass}__toggle{}
+    .#{$baseClass}__toggler{}
+    .#{$baseClass}__description{}
+
+    // Root Level
+    .#{$baseClass}__list--root{}
+    // Level 1
+    .#{$baseClass}__item--0{}
+    .#{$baseClass}__list--0{}
+    // Level 2
+    .#{$baseClass}__item--1{}
+    .#{$baseClass}__list--1{}
+    // Level 3
+    .#{$baseClass}__item--2{}
+}
