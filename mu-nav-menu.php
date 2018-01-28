@@ -67,7 +67,7 @@ namespace MBT {
 				$this->lvl_index++;
 				$output .= "<input type='radio' id='{$this->baseClass}__toggler--{$depth}-{$this->lvl_index}' name='{$this->baseClass}__toggler--{$depth}' class='{$this->baseClass}__toggler {$this->baseClass}__toggler--{$depth}'>";
 				$output .= "<label for='{$this->baseClass}__toggler--{$depth}-{$this->lvl_index}' class='{$this->baseClass}__toggle {$this->baseClass}__toggle--{$depth}' title='{$title}'>";
-				$output .= apply_filters('MBT/WalkerNavMenu/menuToggleContent', SvgSprite::getSvg('carret'));
+				$output .= apply_filters('MBT/WalkerNavMenu/menuToggleContent', '<svg viewBox="0 0 40 40"><path d="M20,26.5 11.4,17.8 15.7,13.5 20,17.9 24.3,13.5 28.6,17.8 "></path></svg>');
 				$output .= "</label>";
 			}
 			$output .= "<ul class='{$this->baseClass}__list {$this->baseClass}__list--{$depth}' id='{$this->baseClass}__list--{$depth}-{$this->lvl_index}'>";
