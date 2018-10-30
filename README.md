@@ -112,3 +112,7 @@ array(
 | Parameter | Default | Functionality |
 |  --- | --- | --- |
 | `string $content` | string of html for the mobile toggle | An additional toggle item for mobile menus (burger). |
+
+
+## Credits
+[@iantsch](https://twitter.com/iantsch) - [web developer](https://mbt.wien) behind this and other project.
